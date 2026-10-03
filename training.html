@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sales Hub · Training Library</title>
+<style>
+  :root{--ink:#382F2D;--maroon:#6E3B34;--terracotta:#C05131;--sage:#7A9B8E;--sage-deep:#5E8274;--tan:#E7C79A;--tan-soft:#F4E8D4;--red:#C8102E;--paper:#FAF7F2;--card:#fff;--line:#E5DCCF;--muted:#8A7F76;--radius:10px;--shadow:0 1px 3px rgba(56,47,45,.08),0 4px 14px rgba(56,47,45,.06)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:16px}
+  body{font-family:Calibri,'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.45}
+  a{color:var(--maroon)}
+  header{background:var(--ink);color:#fff;border-bottom:4px solid var(--red)}
+  .hd{max-width:1180px;margin:0 auto;padding:16px 20px 12px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  h1{font-size:1.45rem;font-weight:700}h1 span{color:var(--tan)}
+  .sub{font-size:.8rem;color:#CFC5BA;text-transform:uppercase;letter-spacing:.14em;margin-top:2px}
+  .back{color:#E9E1D8;font-size:.78rem;text-decoration:none;border:1px solid #6b5f58;padding:5px 12px;border-radius:20px;white-space:nowrap}
+  /* role bar */
+  .rolebar{background:var(--maroon)}
+  .rolebar .in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .rolebar .lbl{color:#DCC3B6;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-right:4px}
+  .rolebar button{font:inherit;font-size:.92rem;font-weight:700;color:#EBD9CE;background:none;border:2px solid rgba(255,255,255,.25);padding:7px 14px;border-radius:999px;cursor:pointer}
+  .rolebar button.on{background:var(--tan);border-color:var(--tan);color:var(--maroon)}
+  .rolebar .sp{flex:1}
+  .rolebar input{font:inherit;font-size:.92rem;padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.18);color:#fff;min-width:220px}
+  .rolebar input::placeholder{color:#C9A99A}
+  /* layout */
+  .wrap{max-width:1180px;margin:0 auto;padding:20px;display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:start}
+  aside{position:sticky;top:12px}
+  aside .g{font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--terracotta);margin:14px 0 4px 10px}
+  aside .g:first-child{margin-top:0}
+  aside a{display:block;text-decoration:none;color:var(--ink);font-weight:600;font-size:.95rem;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+  aside a:hover{background:#fff}
+  aside a.on{background:#fff;color:var(--maroon);border-left-color:var(--terracotta);box-shadow:var(--shadow)}
+  aside .printall{margin-top:16px;display:block;width:100%;font:inherit;font-size:.85rem;font-weight:700;color:var(--maroon);background:#fff;border:2px solid var(--line);border-radius:8px;padding:8px;cursor:pointer}
+  main{min-width:0}
+  .guide{display:none}.guide.on{display:block}
+  .gh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .gh h2{font-size:1.6rem;color:var(--maroon)}
+  .meta{font-size:.82rem;color:var(--muted);margin-bottom:4px}
+  .meta b{color:var(--terracotta);text-transform:uppercase;letter-spacing:.1em;font-size:.68rem;margin-right:8px}
+  .printbtn{font:inherit;font-size:.82rem;font-weight:700;color:var(--maroon);background:#fff;border:2px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+  .lead{font-size:1.02rem;color:var(--muted);margin:6px 0 16px;max-width:760px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 18px;margin-bottom:14px;break-inside:avoid}
+  .card h3{font-size:1.1rem;color:var(--ink);margin-bottom:4px}
+  .card .when{font-size:.78rem;color:var(--muted);margin-bottom:8px}
+  ol.steps{margin:6px 0 4px 0;padding-left:0;list-style:none;counter-reset:s}
+  ol.steps li{position:relative;padding:5px 0 5px 34px;counter-increment:s;border-bottom:1px dotted var(--line)}
+  ol.steps li:last-child{border-bottom:none}
+  ol.steps li:before{content:counter(s);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:var(--maroon);color:#fff;font-size:.78rem;font-weight:700;text-align:center;line-height:24px}
+  ol.steps b{color:var(--maroon)}
+  .chk{margin-top:10px;background:#EFF4F1;border-left:4px solid var(--sage-deep);padding:8px 12px;border-radius:6px;font-size:.92rem}
+  .chk b{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-deep);display:block;margin-bottom:2px}
+  .tip{background:var(--tan-soft);border-left:4px solid var(--terracotta);padding:10px 14px;border-radius:6px;margin:0 0 14px;break-inside:avoid}
+  .tip b{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);display:block;margin-bottom:2px}
+  .tip p{margin:0}
+  .rolechip{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 7px;border-radius:3px;background:var(--tan-soft);color:var(--maroon);vertical-align:middle;margin-left:6px}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;margin:6px 0 4px}
+  th{background:var(--maroon);color:#fff;text-align:left;padding:6px 8px;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
+  td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  td:first-child{font-weight:700;white-space:nowrap}
+  .empty{color:var(--muted);padding:30px;text-align:center}
+  .hit{background:#FFF1B8}
+  @media(max-width:760px){
+    .wrap{grid-template-columns:1fr;gap:12px}
+    aside{position:static;display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+    aside .g{display:none}aside a{white-space:nowrap;border-left:none;border-bottom:3px solid transparent;border-radius:8px 8px 0 0}
+    aside a.on{border-bottom-color:var(--terracotta)}
+    aside .printall{display:none}
+  }
+  @media print{
+    @page{size:letter;margin:.6in}
+    header,.rolebar,aside,.printbtn{display:none!important}
+    body{background:#fff}
+    .wrap{display:block;padding:0;max-width:none}
+    .guide{display:none}.guide.on{display:block}
+    body.printall .guide{display:block;break-before:page}
+    body.printall .guide:first-child{break-before:auto}
+    .card{box-shadow:none}
+    .ptitle{display:block!important;font-size:.75rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:4px}
+  }
+  .ptitle{display:none}
+</style></head>
+<body>
+<header><div class="hd">
+  <div><h1>Sales Hub <span>Training</span></h1><div class="sub">Step-by-step, by role, by tab</div></div>
+  <a class="back" href="index.html">&larr; Open the Sales Hub</a>
+</div></header>
+<div class="rolebar"><div class="in">
+  <span class="lbl">I am a</span>
+  <button data-r="consultant" onclick="setRole('consultant')">Consultant</button>
+  <button data-r="manager" onclick="setRole('manager')">Manager</button>
+  <button data-r="coach" onclick="setRole('coach')">Call Coach</button>
+  <button data-r="coordinator" onclick="setRole('coordinator')">Coordinator</button>
+  <span class="sp"></span>
+  <input type="search" id="q" placeholder="Search: &ldquo;import&rdquo;, &ldquo;revise&rdquo;, &ldquo;PIN&rdquo;&hellip;" oninput="search(this.value)">
+</div></div>
+
+<div class="wrap">
+  <aside id="side"></aside>
+  <main id="main"></main>
+</div>
+
+<script>
+/* ======================================================================
+   THE LIBRARY. One entry per tab (or topic). `roles` says who sees the
+   guide; each task can narrow that further. Steps name the real buttons.
+   ====================================================================== */
+const ROLE_NAME={consultant:'Consultant',manager:'Manager',coach:'Call Coach',coordinator:'Coordinator'};
+const ALL=['consultant','manager','coach','coordinator'];
+const MGR=['manager'];
+const G=[
+
+/* ---------------------------------------------------------------- START */
+{id:'start',group:'Start here',tab:'Getting started',roles:ALL,when:'Once · then it just works',
+ lead:'The hub opens on a shared link. No account, no password. Your name plus your PIN is what makes an entry yours.',
+ tasks:[
+  {t:'Open the hub and sign in as yourself',roles:ALL,steps:[
+    'Open the Sales Hub link on your phone or the office tablet. Bookmark it; it is the same address every day.',
+    'On any tab with a <b>Consultant</b> dropdown, pick your own name. The dropdown remembers the last person who used this device &mdash; check it every time on a shared tablet.',
+    'The first time you open Today, My Week, My Board, Debrief or Track Record the hub asks for your <b>PIN</b>. Type it once; it holds for that browser session.',
+    'Never use somebody else&rsquo;s PIN. Whatever you save goes under the name in the dropdown.'],
+   check:'Your name is in the dropdown and the tab opens without a lock icon. Lost your PIN? Ask Nels &mdash; they are not printed anywhere on purpose.'},
+  {t:'Sign in with the Manager button',roles:['manager','coach','coordinator'],steps:[
+    'Press <b>Manager</b> in the top-right of the header.',
+    'Enter your personal manager PIN. The button turns red and shows your name &mdash; <i>Manager &middot; Nels</i>, <i>Coach &middot; Morgan</i>, or <i>Coordinator &middot; Casey</i>.',
+    'The nav rebuilds for your access level. Full access shows three groups (Numbers, Coaching, Setup); a Call Coach PIN adds Call Coach and Ride-Along to the consultant row; a Coordinator PIN keeps the consultant row and unlocks manager rights on Today and Debrief.',
+    'Press the button again to sign out. It also signs out when the browser closes, which is what you want on a shared machine.'],
+   check:'Your name is on the red button. Every coached call and every debrief you clear will be stamped with it.'},
+  {t:'Read the three header controls',roles:ALL,steps:[
+    '<b>Month box</b> &mdash; drives My Board and the manager number tabs (The Board, The Log, The Team, Where We Land, vs Last Year). It does <i>not</i> drive Today, Debrief or My Week; those follow the day and the week.',
+    '<b>Sync dot</b> &mdash; green means the Google Sheet has everything. Red means the hub is working from the copy on this device and will push when the connection is back. Keep going; nothing is lost. Red all day: tell Nels.',
+    '<b>?</b> &mdash; opens the in-hub Guide at the tab you are on.'],
+   check:null},
+ ],
+ tips:[{h:'One rule for the whole hub',p:'Nothing is typed twice. Every number you see is derived from a day Nels logged or a call you debriefed. If two screens ever disagree, one of them is reading a different month &mdash; check the month box.'}]},
+
+/* -------------------------------------------------------------- ROUTINE */
+{id:'routine',group:'Start here',tab:'Your routine',roles:ALL,when:'The moments the hub asks for &mdash; nothing else',
+ lead:'The hub only works if it is fed on a schedule. These are the moments for your role.',
+ custom:{
+  consultant:`<table><tr><th>When</th><th>Tab</th><th>What</th><th>How long</th></tr>
+   <tr><td>Every morning, before the 7:45 huddle</td><td>Today</td><td>Commit your four numbers against the board as dispatched. Revise when dispatch changes it.</td><td>2 min</td></tr>
+   <tr><td>After every appointment</td><td>Debrief</td><td>Sixty seconds in the driveway. Feeds everything else.</td><td>1 min</td></tr>
+   <tr><td>Once a day, before afternoon calls</td><td>My Board</td><td>Know your rank, your dial colour and your worst KPI.</td><td>2 min</td></tr>
+   <tr><td>Wednesday midday</td><td>Debrief</td><td>Press <b>Text Nels my checkpoint</b>. Don&rsquo;t write it.</td><td>10 sec</td></tr>
+   <tr><td>Before Monday (start Friday, finish Sunday)</td><td>My Week</td><td>Grade last week, self-check, one action plan, what you need from Nels.</td><td>10 min</td></tr>
+   <tr><td>After the one-on-one</td><td>My Week</td><td>Read Nels&rsquo;s notes. Press agree. Week closed.</td><td>1 min</td></tr>
+   <tr><td>Monthly</td><td>Track Record</td><td>The honest view. No Pending in the last four weeks.</td><td>5 min</td></tr></table>`,
+  manager:`<table><tr><th>When</th><th>Tab</th><th>What</th></tr>
+   <tr><td>Every morning, before the huddle</td><td>Today</td><td>Commit the team&rsquo;s four numbers and a word to the team. Read <i>Where we stand</i> for the gap and the &ldquo;still to commit&rdquo; line.</td></tr>
+   <tr><td>Every workday</td><td>The Log</td><td>Log the day, or paste it from a report. The only data-entry job that matters.</td></tr>
+   <tr><td>Every afternoon</td><td>Call Coach</td><td>Clear the coverage queue: every unsold appointment with no HA/ZT call. Empty it before you leave.</td></tr>
+   <tr><td>End of day</td><td>Debrief &rarr; End of day · Yesterday</td><td>Who ran calls and didn&rsquo;t debrief. Then send the daily recap to leadership.</td></tr>
+   <tr><td>Wednesday midday</td><td>Team Review / texts</td><td>Checkpoint texts land. Compare them against the debrief counts they were built from.</td></tr>
+   <tr><td>Friday 3:00</td><td>The Log</td><td>Catch up unlogged days so Monday&rsquo;s touch bases open on current numbers.</td></tr>
+   <tr><td>Monday</td><td>Team Review</td><td>Run the board, one card at a time. Write notes; they get read and agreed.</td></tr>
+   <tr><td>1st of the month</td><td>Where We Land · Import</td><td>Month rollover: target, working days, lead plan, backup, baseline.</td></tr></table>`,
+  coach:`<table><tr><th>When</th><th>Tab</th><th>What</th></tr>
+   <tr><td>While the phone is ringing</td><td>Call Coach</td><td>Run the High Authority or Zero Ticket call from the playbook. Everything you tap becomes a coached-call record on the consultant&rsquo;s week.</td></tr>
+   <tr><td>Every afternoon</td><td>Call Coach</td><td>Work the coverage queue. <b>Start this call</b> on any unsold appointment with no HA/ZT; <b>End call</b> marks it covered.</td></tr>
+   <tr><td>Curbside, after a ride-along</td><td>Ride-Along</td><td>Score the six steps, name the biggest opportunity, save it onto the consultant&rsquo;s week.</td></tr>
+   <tr><td>When a price push comes up</td><td>Price Book</td><td>Next Day Discount &mdash; run the number, hand back what the job can take.</td></tr></table>`,
+  coordinator:`<table><tr><th>When</th><th>Tab</th><th>What</th></tr>
+   <tr><td>Every morning, before the huddle (when Nels is out)</td><td>Today</td><td>Set the team commitment &mdash; the four numbers and a word to the team.</td></tr>
+   <tr><td>Through the day</td><td>Today</td><td>Watch <i>Where we stand</i>. Chase anyone on the &ldquo;still to commit&rdquo; line.</td></tr>
+   <tr><td>End of day</td><td>Debrief</td><td>Open the <b>End of day</b> card. Chase missing debriefs. Delete a duplicate or bad one if a consultant asks.</td></tr></table>`},
+ tasks:[],tips:[]},
+
+/* ---------------------------------------------------------------- TODAY */
+{id:'today',group:'Coaching',tab:'Today',roles:ALL.filter(r=>r!=='coach'),when:'Every morning · 2 minutes · revise as the board changes',
+ lead:'Four numbers every morning: jobs sold, sold revenue, Google reviews, Family Plans. Nels commits the team&rsquo;s to the company; each consultant commits their own share. The debriefs settle it tonight.',
+ tasks:[
+  {t:'Commit my four numbers for the day',roles:['consultant'],steps:[
+    'Open <b>Today</b>. Check the <b>Day</b> box is today (the <b>Today</b> button resets it).',
+    'Under <b>My commitment</b>, pick your name and enter your PIN if asked.',
+    '<b>Appointments on my board</b> &mdash; type how many dispatch has given you.',
+    '<b>Close rate I&rsquo;m committing to</b> &mdash; it starts from your last commitment, or your month so far, or the coaching target. Decide the number you are actually committing to.',
+    '<b>Average ticket I&rsquo;m committing to</b> &mdash; same idea.',
+    'Read the proposal line: <i>3 appointments &times; 60% &asymp; 2 sold; 2 &times; $14,000 = $28,000</i>. Press <b>Use these numbers</b> to fill Jobs sold and Sold revenue.',
+    '<b>Google reviews</b> and <b>Family Plans</b> default to the number of appointments &mdash; every call. Lower them only if you are prepared to say why.',
+    'One line under <b>What I&rsquo;m doing today to get there</b>. Tie it to your focus behavior.',
+    'Press <b>Commit</b>. Find your stamp (&ldquo;Committed at 7:12&rdquo;).'],
+   check:'Your row shows in Where We Stand with your rates and time. All four boxes must be filled &mdash; a blank is refused with &ldquo;All four numbers, please&rdquo;.'},
+  {t:'Revise when dispatch changes my board',roles:['consultant'],steps:[
+    'Open <b>Today</b>. Change <b>Appointments on my board</b> to the new count.',
+    'The proposal line re-calculates. Your typed numbers do not change on their own &mdash; the hub never overwrites what you wrote.',
+    'Press <b>Use these numbers</b> if you want the new proposal, or edit the four numbers by hand.',
+    'Raise reviews and Family Plans to match the new appointment count.',
+    'Press <b>Revise my commitment</b>.'],
+   check:'The stamp now reads &ldquo;Committed at 7:1x, revised 11:3x&rdquo;. The version standing when the debriefs come in is the one that counts.'},
+  {t:'Set the team commitment',roles:['manager','coordinator'],steps:[
+    'Sign in with the Manager (or Coordinator) button.',
+    'Open <b>Today</b>. The <b>Team commitment</b> card now shows four inputs. The line above them says what the month&rsquo;s plan implies for a day and what it takes to land the month from here &mdash; use it as the floor.',
+    'Fill <b>Jobs sold</b>, <b>Sold revenue</b>, <b>Google reviews</b>, <b>Family Plans</b>.',
+    'Optional: one line in <b>Word to the team</b> &mdash; what today hinges on. It shows on every consultant&rsquo;s Today as &ldquo;From Nels: &hellip;&rdquo;.',
+    'Press <b>Commit for the team</b> (or <b>Update team commitment</b> to change it later).'],
+   check:'The heading badge reads <i>committed</i> and the card shows &ldquo;Set by Nels at 7:40&rdquo;. Consultants can commit before you do; the tab doesn&rsquo;t wait.'},
+  {t:'Read Where We Stand at the huddle',roles:['consultant','manager','coordinator'],steps:[
+    'Scroll to <b>Where we stand</b>. Every consultant&rsquo;s commitment is a row, with their close rate, ticket and the time they committed.',
+    'Read the <b>Consultants&rsquo; total</b> row against <b>Nels&rsquo;s commitment</b>. The <b>Gap</b> row is green when the team clears the number and red when it doesn&rsquo;t.',
+    'A red column is the morning conversation: who takes the extra, or is the team number wrong today? Ask it at 7:45, not at 6 pm.',
+    '<b>Still to commit</b> names anyone without a row. Don&rsquo;t be on that line.',
+    'Through the day, <b>So far today</b> fills in from debriefs &mdash; sold, revenue, reviews left, plans signed, plus &ldquo;asked for a review on 4 of 5 calls&rdquo;. Consultants see their own actuals; managers see everyone&rsquo;s.'],
+   check:null},
+  {t:'Open a consultant&rsquo;s commitment without their PIN',roles:['manager','coordinator'],steps:[
+    'Signed in as Manager or Coordinator, pick the consultant in the <b>My commitment</b> dropdown. No PIN prompt appears.',
+    'Edit and press <b>Revise my commitment</b> if you are entering it on their behalf &mdash; say so in the note line.'],
+   check:null},
+ ],
+ tips:[{h:'The rate is the commitment',p:'You don&rsquo;t control how many leads you get. The close rate and ticket are what you own; the sold count and revenue are what those rates say once the board is known. That is why the hub proposes them rather than asking you to guess.'},
+       {h:'How the day settles',p:'Sold and amount come off the debrief you already log. The debrief also asks whether you asked for a review (and whether they left one) and whether you offered the Family Plan (and whether they took it). A review counts when it&rsquo;s left; a plan counts when it&rsquo;s signed. Nothing is typed on Today tonight.'}]},
+
+/* -------------------------------------------------------------- DEBRIEF */
+{id:'debrief',group:'Coaching',tab:'Debrief',roles:ALL.filter(r=>r!=='coach'),when:'After every appointment · 60 seconds · in the truck',
+ lead:'Everything else in the hub is built out of what gets logged here. An hour later you remember the outcome and nothing else.',
+ tasks:[
+  {t:'Debrief a call',roles:['consultant'],steps:[
+    'Open <b>Debrief</b>. Pick your name; enter your PIN if asked. Check the focus card at the top &mdash; your behavior this week in quotes with a running tally.',
+    '<b>Day the appointment ran</b> defaults to today. Change it only if you are catching up.',
+    '<b>Customer</b> &mdash; first name is plenty. It is what shows in the coverage queue.',
+    '<b>How did it end?</b> &mdash; <b>Sold</b>, <b>Pending</b> (a real dated next step, not &ldquo;thinking about it&rdquo;) or <b>No sale</b>.',
+    '<b>Your focus behavior &mdash; did you actually do it on this call?</b> Only appears if you filed My Week. <b>Yes &mdash; I did it</b> or <b>No &mdash; I skipped it</b>. Be honest; a pattern of skips is worth more than a padded count.',
+    '<b>Restate-to-nod</b> &mdash; did you say their top concern back in their words and get the nod before the tablet opened? <b>Got the nod</b> / <b>Didn&rsquo;t</b>.',
+    '<b>Google review</b> &mdash; <b>They left one</b>, <b>Asked, not yet</b>, or <b>Didn&rsquo;t ask</b>. Required.',
+    '<b>Family Plan</b> &mdash; <b>Signed up</b>, <b>Offered, declined</b>, <b>Didn&rsquo;t offer</b>, or <b>Already a member</b>. Required.',
+    '<b>One thing they said &mdash; their exact words.</b> Not a summary. &ldquo;The upstairs bedroom is an oven by 3pm.&rdquo;',
+    'If it sold: the <b>amount</b> and the <b>option</b> they chose. If it didn&rsquo;t: the HA/ZT call &mdash; <b>Made</b>, <b>Scheduled</b> or <b>Not yet</b> &mdash; who, and what is holding them back in their words.',
+    'Press <b>Save this call</b>. The form clears and your week&rsquo;s tally updates underneath.'],
+   check:'The call appears in <i>My week so far</i>. On Today, <i>So far today</i> now includes it. If the form refuses to save, the toast names the row you skipped.'},
+  {t:'Send the Wednesday checkpoint',roles:['consultant'],steps:[
+    'Open <b>Debrief</b>, scroll to the bottom of <b>My week so far</b>.',
+    'Press <b>Text Nels my checkpoint</b>. Your phone opens a text already written: focus count, restate-to-nod, calls, sold, HA/ZT coverage.',
+    'Read it. Every number came off a debrief you logged. If one looks wrong, the fix is a missing debrief, not the text.',
+    'Send it.'],
+   check:null},
+  {t:'Log an unsold call the right way',roles:['consultant'],steps:[
+    'Outcome <b>No sale</b> or <b>Pending</b>.',
+    'HA/ZT: if no manager call has happened, choose <b>Not yet</b>. Do not skip the debrief to avoid it.',
+    'Write what is holding them back in their words &mdash; that is the brief the manager reads before dialling.'],
+   check:'The call lands in Nels&rsquo;s coverage queue immediately. That is help, not a black mark: a manager call is the fastest money in the building.'},
+  {t:'Run the end-of-day check',roles:['manager','coordinator'],steps:[
+    'Sign in, open <b>Debrief</b>, scroll to <b>End of day &mdash; managers only</b>. It opens on today; pick another day if needed.',
+    'Read the line at the top: who missed a debrief and how many.',
+    'The table puts the daily log and the debriefs side by side &mdash; appointments run by type (TGL, marketed, self-gen) against debriefs entered, with sold / pending / no-sale from the debriefs and a team total row.',
+    'Log the day in The Log first if you can &mdash; until it is logged, this card can only count debriefs.',
+    'Chase the gaps before the recap goes out.'],
+   check:'No gap by anyone&rsquo;s name. A consultant who ran four appointments and logged none is invisible everywhere else; here they are the first row.'},
+  {t:'Delete a bad or duplicate debrief',roles:['manager','coordinator'],steps:[
+    'Signed in, open <b>Debrief</b> and pick the consultant. No PIN needed.',
+    'In <b>My week so far</b>, find the call and press <b>Delete this debrief</b>. Confirm.'],
+   check:'The tally, Today&rsquo;s actuals and the coverage queue all recalculate. If a coached call had cleared it, that record stays on the consultant&rsquo;s week.'},
+ ],
+ tips:[{h:'What counts',p:'A review counts when it is left. A plan counts when it is signed. <i>Asked, not yet</i> and <i>Offered, declined</i> still show the behavior happened &mdash; Today reports &ldquo;asked on 4 of 5 calls&rdquo; separately. <i>Already a member</i> is neither a sign-up nor a missed offer; it is shown on its own.'},
+       {h:'Where it goes',p:'Team Review (calls, sold, focus hits, nod rate, coverage) &middot; Call Coach (unsold calls without an HA/ZT queue up) &middot; Today (the day&rsquo;s actuals) &middot; the daily rollup to leadership.'}]},
+
+/* -------------------------------------------------------------- MY WEEK */
+{id:'mytb',group:'Coaching',tab:'My Week',roles:['consultant','manager'],when:'Before Monday · about 10 minutes · start Friday, finish Sunday',
+ lead:'You bring the plan; Nels brings the questions. Ten minutes of prep buys a conversation about your process instead of a conversation about your numbers.',
+ tasks:[
+  {t:'File my touch base',roles:['consultant'],steps:[
+    'Open <b>My Week</b>. Pick your name and this Monday&rsquo;s date in <b>Week of</b> (it snaps to Monday whatever day you click). Enter your PIN if asked.',
+    '<b>1 &middot; Your scoreboard</b> &mdash; read only. Appointments, both close rates, both tickets, year-to-date underneath, flagged against target. The line above says whether it came from the daily log or the pace report.',
+    '<b>How I executed last week</b> &mdash; read only. Your compliance score for the week that just ended, one chip per responsibility, and anything under 70% with the specific calls or days. Nels sees the same strip on your Monday card, so read it before the one-on-one.',
+    '<b>2 &middot; Last week&rsquo;s action</b> &mdash; last week&rsquo;s plan is quoted back. Press <b>Worked</b>, <b>Partially</b> or <b>Didn&rsquo;t work</b>, then say what you saw happen on specific calls. Skip this and Track Record goes thin.',
+    '<b>3 &middot; Self-check</b> &mdash; rate all six steps 1&ndash;5 for last week&rsquo;s calls. A 5 means you ran that step the way we train it, every call. The lowest is your candidate focus.',
+    '<b>4 &middot; Wins</b> &mdash; what worked and specifically what you did. &ldquo;Built rapport&rdquo; doesn&rsquo;t count. The second box: one thing you did to get better.',
+    '<b>5 &middot; Opportunity</b> &mdash; the KPI to move (sub-standard sorts first), the step it lives in, and the cause in process terms.',
+    '<b>6 &middot; Action plan</b> &mdash; <b>Behavior</b> (one thing, observable on a ride-along), <b>When</b> (the trigger moment in the call), <b>Measure</b> (a count), <b>Checkpoint</b> (a day and a time).',
+    '<b>7 &middot; What I need from Nels</b> &mdash; roleplay, pricing, a ride-along, an answer. Say it here so it gets handled Monday.',
+    'Press <b>Save my touch base</b>. Saving again for the same week updates the same entry.'],
+   check:'Open Debrief: your new behavior is the focus card. Open My Board: it sits at the top with &ldquo;this week&rdquo;. Test the behavior with a partner: could they sit in the passenger seat and mark yes/no on each call? If not, rewrite it.'},
+  {t:'Review Nels&rsquo;s notes and agree',roles:['consultant'],steps:[
+    'After the one-on-one, open <b>My Week</b> for that Monday and scroll to <b>From your one-on-one</b>.',
+    'Read the manager notes and what you practiced live.',
+    'Press <b>I&rsquo;ve reviewed this and we&rsquo;re agreed</b>.'],
+   check:'A green agreed tick shows on your Monday card and on My Board. If Nels edits the notes later the tick clears and you&rsquo;ll be asked to read the new version &mdash; you are never on record agreeing to something you didn&rsquo;t read.'},
+  {t:'Turn a ride-along opportunity into this week&rsquo;s focus',roles:['consultant'],steps:[
+    'If a manager filed a ride-along recap this week, it shows above your opportunity section with the six coach scores beside your six self-check scores.',
+    'Press <b>Make this my focus behavior</b> to drop the biggest opportunity into section 6.',
+    'Finish the When, Measure and Checkpoint boxes and save.'],
+   check:null},
+  {t:'Open any consultant&rsquo;s touch base',roles:['manager'],steps:[
+    'Signed in as Manager, pick the consultant &mdash; no PIN prompt.',
+    'Read, don&rsquo;t write here: your notes go on <b>Team Review</b>, where they land on the consultant&rsquo;s card with the agree button.'],
+   check:null},
+ ],
+ tips:[{h:'The behavior box does work',p:'Whatever you write in Behavior becomes the focus card on Debrief, the dots on My Board, and the question every call asks. Write it as something you did or didn&rsquo;t do on a given call and the tally works. Write an aspiration and there is nothing to count.'}]},
+
+/* ------------------------------------------------------------- MY BOARD */
+{id:'myboard',group:'Coaching',tab:'My Board',roles:['consultant','manager'],when:'Once a day · your PIN · follows the month box',
+ lead:'The Board, cut down to you. Same daily log, same plan, same colours Nels reads &mdash; only your rows, behind your PIN. Read only.',
+ tasks:[
+  {t:'The two-minute daily glance',roles:['consultant'],steps:[
+    'Open <b>My Board</b>. Enter your PIN if asked. Check the month box in the header is this month.',
+    '<b>Your commitments</b> at the top: focus behavior, measure, checkpoint, Nels&rsquo;s notes, agreed or not. The dots show how many logged calls you ran the behavior on this week.',
+    '<b>The dial</b>: your revenue against your even share of the month&rsquo;s team target. Green only when you are as far along in dollars as the month is in working days.',
+    '<b>Coaching scoreboard</b>: the five tiles. Which is red, if any?',
+    '<b>Close rate vs plan</b>: TGL, marketed, overall against the planned rates. Read <b>Worth of your close gap</b> &mdash; the dollar figure on leads you have already run.',
+    '<b>Leads vs plan</b>: are you getting your share? A shortfall is a conversation with Nels, not a fault.',
+    '<b>Week by week</b>: the direction of close rate, revenue and appointments.'],
+   check:'In under two minutes you can say: my rank; whether I&rsquo;m ahead of the calendar on dollars; my worst KPI and what it&rsquo;s worth; whether I&rsquo;m short on leads.'},
+ ],
+ tips:[{h:'How to read the colours',p:'One rule everywhere: <b>green</b> is at or past plan, <b>orange</b> is within 85% of target (close enough to fix this week), <b>red</b> is below that (name the process cause on My Week). Appointments are prorated against working days elapsed, so on day 3 of 22 you are on pace with 4 run, not 21 short.'},
+       {h:'All dashes?',p:'No days logged for that month yet. Check the month box first; then it fills in as Nels logs days.'}]},
+
+/* ---------------------------------------------------------- TRACK RECORD */
+{id:'track',group:'Coaching',tab:'Track Record',roles:['consultant','manager'],when:'Monthly · and before any conversation about your numbers',
+ lead:'History by month: what the KPIs did, what you committed each week, whether it worked, whether the number moved. Nobody types it.',
+ tasks:[
+  {t:'Read my track record',roles:['consultant','manager'],steps:[
+    'Open <b>Track Record</b>, pick the name, enter the PIN if asked.',
+    '<b>Month rows</b> show the five KPIs flagged against target. Click a month to expand the weeks inside.',
+    'Per week: <b>Commitment</b> (the behavior named), <b>Result</b> (Worked / Partial / Didn&rsquo;t &mdash; or <b>Pending</b> if never graded), <b>Moved</b> (whether the named KPI shifted four weeks on; hover for before and after).',
+    'Press <b>Export CSV</b> for a review or your own records.'],
+   check:'No Pending in the last four weeks. Every Pending is a week where section 2 of the next My Week was skipped.'},
+ ],tips:[]},
+
+/* ----------------------------------------------------------- PRICE BOOK */
+{id:'pricebook',group:'Coaching',tab:'Price Book',roles:ALL,when:'At the kitchen table · as needed',
+ lead:'Six doors into the live Price Book app, and a table of which tool belongs to which moment in the call. Nothing priced is stored in the hub.',
+ tasks:[
+  {t:'Open the right tool for the moment',roles:ALL,steps:[
+    'Open <b>Price Book</b>. Each card opens the live app in a new tab &mdash; always current, never a stale copy.',
+    'Use the short table to pick the tool for where you are in the call.',
+    '&ldquo;Can you do better on the price?&rdquo; is an HA or ZT call &mdash; get a manager on the phone before you answer.'],
+   check:null},
+  {t:'Run a Next Day Discount',roles:['manager','coach'],steps:[
+    'Signed in with any manager or coach PIN, the <b>Next Day Discount</b> card is unlocked (consultants see a locked card in its place).',
+    'Enter job type, tonnage, package, lead type, payment method and how many install slots are open tomorrow.',
+    'Read the net profit on the proposed price, whether it clears the floor, and the lowest counter that still does.',
+    'Hand the number back to the consultant. Call Coach links here from the High Authority quote box and the &ldquo;costs too much&rdquo; play.'],
+   check:'The real lock is the Comfort Consultant role inside the price book app&rsquo;s own access controls &mdash; this card hides the door, not the room.'},
+ ],tips:[]},
+
+/* ---------------------------------------------------------- TEAM REVIEW */
+{id:'review',group:'Coaching',tab:'Team Review',roles:MGR,when:'Monday · the board the one-on-ones are run from',
+ lead:'Everyone&rsquo;s week on one screen &mdash; numbers, self-check, wins, opportunity, plan and asks for the selected week.',
+ tasks:[
+  {t:'Run Monday&rsquo;s one-on-ones from the board',roles:MGR,steps:[
+    'Sign in. Open <b>Team Review</b>. Set <b>Week of</b> &mdash; it snaps to Monday. Anyone who hasn&rsquo;t filed shows an empty card; that is the first conversation.',
+    'Read <b>Coaching coverage</b> at the top: HA and ZT calls per manager this week, consultants reached, unsold appointments still uncovered.',
+    'Per card, top down: KPI chips against target, the six-step self-check meter, last week&rsquo;s result and note, wins, the <b>From the field</b> block, growth, the opportunity, this week&rsquo;s plan, and the asks in a flagged box.',
+    'Check the field block against the plan: calls, sold, focus hits out of focus-eligible calls, restate-to-nod, HA/ZT coverage on unsold, coached calls. A self-check of 5 next to a focus count of 1 of 6 is the conversation.',
+    'Read the <b>Compliance</b> strip on the card: last week&rsquo;s execution score with every category, and a list of anything under 70% with the specific calls or days. <b>Full detail &rarr;</b> jumps to the Compliance drill-down for that consultant and week.',
+    'If a ride-along recap exists, the six coach scores sit beside the six self-scores with the gap flagged. <b>Add the opportunity to manager notes</b> drops it into your notes in one tap.',
+    'Write the two boxes &mdash; <b>Manager notes</b>, and what was actually run live and how it landed &mdash; then <b>Save manager fields</b>.',
+    'Watch for the green agreed tick after the consultant reads it. Editing the notes clears the tick and asks them to read again.'],
+   check:'The asks are the deal. Anything you commit to on Monday, report on next Monday &mdash; the board is the record either way.'},
+ ],tips:[]},
+
+/* ----------------------------------------------------------- COMPLIANCE */
+{id:'compliance',group:'Coaching',tab:'Compliance',roles:MGR,when:'Friday, or any time · nothing to enter',
+ lead:'Execution of the consultant responsibilities, scored from what is already in the hub &mdash; Today commitments, debriefs, the daily log, My Week and the checkpoint button. Nobody types anything here.',
+ tasks:[
+  {t:'Read the team for the week',roles:MGR,steps:[
+    'Sign in. Open <b>Compliance</b>. The week defaults to this one; use <b>&larr; Prev</b> / <b>Next &rarr;</b> or the date box (it snaps to Monday).',
+    'Tiles: team compliance (the average of the categories), the weakest category, debriefs against appointments run, and who is under 70%.',
+    'The grid: one row per consultant, one column per responsibility. Each cell is a percentage with the count behind it &mdash; <i>67% &middot; 10 of 15</i>. Green is 90%+, orange 70&ndash;89, red under 70, grey means nothing to measure yet.',
+    'Click any column heading to sort by it (worst first). Click <b>Overall</b> to get back.',
+    'The <b>Team</b> row at the bottom is the sum of everyone&rsquo;s done over everyone&rsquo;s expected, per category.'],
+   check:'A grey cell is not a fail: a category with nothing expected yet (no unsold calls, Wednesday not reached, no manager notes) is left out of the average.'},
+  {t:'Drill into one consultant',roles:MGR,steps:[
+    'Click the consultant&rsquo;s name. A panel opens underneath with one card per category.',
+    'Each card shows the score, why it counts, and the specifics &mdash; which days had no commitment, which customers had no restate, which unsold calls still have no HA/ZT, whether My Week was on time.',
+    'The bars under each card are the last six weeks, oldest on the left, so a one-off looks different from a habit.',
+    'Take the two or three items into Monday&rsquo;s one-on-one. Press <b>Close</b> or click the name again to collapse.'],
+   check:null},
+  {t:'What each category measures',roles:MGR,steps:[
+    '<b>Morning commitment</b> &mdash; committed on Today each working day that has passed (days the log shows zero appointments are skipped). The detail line counts how many were before 7:45.',
+    '<b>Debrief coverage</b> &mdash; debriefs entered against appointments run in the daily log. Unlogged days can&rsquo;t be scored, so log the day first.',
+    '<b>Restate-to-nod</b>, <b>Review ask</b>, <b>Family Plan offer</b>, <b>Exact words</b> &mdash; out of every call debriefed. An ask that didn&rsquo;t land still counts as an ask; <i>Already a member</i> counts as covered.',
+    '<b>Focus behavior</b> &mdash; ran it, out of calls where the question was asked. Grey if no My Week was filed.',
+    '<b>HA/ZT on unsold</b> &mdash; made or scheduled, out of unsold calls. A coached call from Call Coach marks it made.',
+    '<b>Wed checkpoint</b> &mdash; expected once Wednesday has passed; counts the button press on Debrief.',
+    '<b>My Week filed</b> &mdash; a touch base with a behavior. The detail says whether it was saved before Monday 7:00.',
+    '<b>Last week graded</b> &mdash; only expected when last week had a plan. <b>Notes agreed</b> &mdash; only expected once you have written notes.'],
+   check:null},
+  {t:'Export the week',roles:MGR,steps:['Press <b>Export CSV</b>. One row per consultant with the percentage, done and expected for every category.'],check:null},
+ ],
+ tips:[{h:'Use it before Monday, not instead of Monday',p:'The grid tells you where the conversation is; the drill-down tells you the specific calls and days. It never replaces reading the card on Team Review.'}]},
+
+/* ----------------------------------------------------------- CALL COACH */
+{id:'coach',group:'Coaching',tab:'Call Coach',roles:['manager','coach'],when:'Live, while the phone is ringing · every afternoon for the queue',
+ lead:'The High Authority and Zero Ticket playbook, built for the moment you pick up. Everything you tap becomes a coached-call record on that consultant&rsquo;s week.',
+ tasks:[
+  {t:'Clear the coverage queue',roles:['manager','coach'],steps:[
+    'Sign in. Open <b>Call Coach</b>. The queue at the top lists every unsold appointment from this week and last week with no HA/ZT call made, newest first &mdash; customer, consultant, and the holdback in their words.',
+    'Press <b>Start this call</b> on a row. The hub sets the consultant, customer and brief note for you and opens in Zero Ticket mode.',
+    'Run the call (next task). When you press <b>End call &rarr; save to the hub</b>, that debrief is marked covered and drops off the queue.',
+    '<b>Scheduled</b> keeps a call in the queue on purpose &mdash; only <b>Made</b> clears it.'],
+   check:'Empty queue before you leave. Uncovered appointments are totalled on the Monday board for the week.'},
+  {t:'Run a High Authority call',roles:['manager','coach'],steps:[
+    'Pick <b>High Authority</b> &mdash; the consultant is the voice; you are behind the curtain.',
+    'Pick the consultant and customer. Press <b>Answer the call</b>. A timer starts.',
+    'Tap each checklist item as you go: once = landed clean, twice = missed or weak (it becomes the coaching note), again to clear. The seven steps plus <b>frame held</b>.',
+    'Use the qualifying questions and the quote-versus-ask calculator for the counter number. The quote box links to Next Day Discount.',
+    'Record the outcome. Write <b>one</b> coaching note. Press <b>End call &rarr; save to the hub</b>.',
+    'Optional: <b>Copy for Teams / ServiceTitan</b>. It is already saved on the consultant&rsquo;s week.'],
+   check:'The record shows under the consultant&rsquo;s Monday card, stamped with your name from your PIN.'},
+  {t:'Run a Zero Ticket call',roles:['manager','coach'],steps:[
+    'Pick <b>Zero Ticket</b> &mdash; you take the customer.',
+    'Fill the five-part brief first. Anything not green, ask the consultant for it before you take the customer &mdash; especially what they think the real objection is.',
+    'Press <b>Answer the call</b>. Then the wheel: open warm &rarr; acknowledge, empathize, by-pass &rarr; name the spoke and run its play &rarr; ask for the business &rarr; set a dated next step.',
+    'Tap the checklist as you go. Record the outcome, one coaching note, <b>End call &rarr; save to the hub</b>.',
+    'Tick <b>Consultant committed: ServiceTitan debrief today</b> once they have.'],
+   check:'One note, not five. A consultant who gets one specific correction changes one thing; five changes nothing.'},
+ ],
+ tips:[{h:'Who ran it',p:'The call saves under whichever manager the PIN identified, and clearing a debrief off the queue stamps that same name over whoever the consultant said would call. The consultant&rsquo;s chip on Debrief says who they expected; the coached-call record says who actually did it.'}]},
+
+/* ----------------------------------------------------------- RIDE-ALONG */
+{id:'ridealong',group:'Coaching',tab:'Ride-Along',roles:['manager','coach'],when:'Curbside, after the call · any manager or Call Coach PIN',
+ lead:'The Ride-Along Coaching Recap inside the hub. Same six steps, same checklists, same scoring &mdash; but it saves onto the consultant&rsquo;s week, so it syncs, keeps a history, and shows up in the one-on-one.',
+ tasks:[
+  {t:'File a ride-along recap',roles:['manager','coach'],steps:[
+    'Sign in. Open <b>Ride-Along</b>. Press <b>New recap</b> if one is open.',
+    '<b>Call details</b>: consultant, date (defaults to today), customer or job, evaluator (stamped from your PIN, editable), outcome and quote.',
+    '<b>Score the six steps</b>: tap 1&ndash;5 or N/A, tick the behaviors you actually saw, add a note for the specific moment. The badge on each step and the process score at the top update as you go.',
+    '<b>Summary and biggest opportunity</b>: one honest paragraph &mdash; dictate it. Unticked behaviors on steps scored 3 or below appear as chips; tap one to make it the opportunity, or type your own. Say which step it lives in.',
+    'Press <b>Save recap</b>. It files against the Monday of the week the call ran.',
+    'Past recaps for the consultant list underneath; tap one to reopen it, or <b>Print / PDF</b> for the signed copy.'],
+   check:'Team Review shows the recap on the consultant&rsquo;s card with coach scores beside self-scores. My Week shows it above their opportunity with a one-tap &ldquo;make this my focus&rdquo;. My Board shows the opportunity on the commitments card. Track Record carries the year&rsquo;s average score.'},
+  {t:'Bring in a recap from the old standalone page',roles:['manager','coach'],steps:[
+    'If this browser has a recap saved on the old Ride-Along page, the <b>Call details</b> card offers to import it.',
+    'Check it over, pick the consultant if the name didn&rsquo;t match the roster, and <b>Save recap</b>. From here on, do them in the hub.'],
+   check:null},
+ ],tips:[]},
+
+/* ------------------------------------------------------------ THE BOARD */
+{id:'overview',group:'Numbers',tab:'The Board',roles:MGR,when:'The month at a glance · the tab to open in a team meeting',
+ lead:'Every figure derives from the daily log. A badge next to the heading says whether the month has logged days or nothing yet.',
+ tasks:[
+  {t:'Read the Board top to bottom',roles:MGR,steps:[
+    'Set the <b>month box</b> in the header.',
+    '<b>Top tiles</b>: revenue against target (red under 70%, green at 100%), sold, overall close, appointments run, service calls, and this month against the same month last year.',
+    '<b>Ticket tiles</b>: TGL, marketed and cumulative average ticket, each with the deal count behind it &mdash; so you see when an average rides on two sales.',
+    '<b>Leads vs plan</b>: TGL, marketed and total against the plan and against where the pace says you should be by now. Green or red tag is the gap; anything inside half a lead reads as on pace.',
+    '<b>Pace line</b>: what&rsquo;s needed per day for the working days left, against what&rsquo;s actually being run. A second line for leads.',
+    '<b>By consultant</b>: the month per person, with a TOTAL row that reconciles to the tiles.',
+    '<b>Weekly breakdown</b> and <b>weekly close grid</b>: seven-day blocks, every consultant every week, month-to-date chip, team row. Hover a chip for the TGL / marketed split. Green at 50%, amber 35&ndash;49, red below 35.',
+    'The data-check count next to the heading tells you if The Log has something to fix before you trust a number.'],
+   check:'If the Board says someone ran fourteen appointments, their My Week says fourteen too. Same log; they can&rsquo;t disagree.'},
+ ],tips:[]},
+
+/* -------------------------------------------------------------- THE LOG */
+{id:'daily',group:'Numbers',tab:'The Log',roles:MGR,when:'Every workday · about 2 minutes · the single source of truth',
+ lead:'One card per calendar day. Days with data carry a green edge; unlogged working days are edged red. Every number in the hub is only as current as the last day logged.',
+ tasks:[
+  {t:'Log a day by hand',roles:MGR,steps:[
+    'Check the <b>month box</b> first &mdash; everything on this tab belongs to that month.',
+    'Press <b>Log today</b>, or <b>Edit</b> on any day card.',
+    '<b>Service calls</b>: the team&rsquo;s total calls run that day. It feeds the Board tile and nothing else; leave it at zero if you don&rsquo;t track it.',
+    'Per consultant, fill the six columns: TGL appointments, sold, revenue; then the same three for marketed. Revenue is the sold total for that lead type that day, not an average.',
+    'Watch the warning line. It flags sold exceeding appointments, or revenue with no sale, as you type &mdash; the two mistakes that quietly corrupt a close rate.',
+    'Leave a row blank if a consultant didn&rsquo;t run. A blank is different from a zero: blanks keep them out of the day&rsquo;s averages.',
+    'Press <b>Save day</b>.'],
+   check:'The card turns green-edged. Every other tab recalculates: Board, Team, Where We Land, vs Last Year, every consultant&rsquo;s My Week tiles, the Monday chips, Track Record.'},
+  {t:'Paste a day from a report',roles:MGR,steps:[
+    'On the day card, press <b>Paste from a report</b> &mdash; or use the <b>Import</b> tab (see its guide) for the full importer with name matching and confirmation.'],
+   check:null},
+  {t:'Correct a day',roles:MGR,steps:[
+    'Open the day, change the number, <b>Save day</b>.',
+    'There is nothing else to update. The month total, every consultant&rsquo;s scoreboard, the Monday board, the Track Record and year-to-date all re-derive from the day you just fixed.'],
+   check:null},
+  {t:'Read the data check',roles:MGR,steps:[
+    'At the top of The Log. It runs on the selected month and reports in plain language.',
+    '<b>Red</b> items will skew a number if left alone: working days with nothing logged (they count against pace), more sold than appointments in a day, revenue with no sale, the monthly paste disagreeing with the daily log.',
+    '<b>Amber</b> items are worth understanding but may be correct: sales on a day with no appointment of that type (usually a deal written after the appointment ran), a consultant with no logged activity.',
+    'Fix the day it names; the count on the Board clears.'],
+   check:null},
+ ],
+ tips:[{h:'Unlogged working days',p:'A working day the calendar has passed with nothing in it is edged red and labelled. Fill it in, or accept the month is running behind by that day&rsquo;s worth of leads &mdash; the divisor is the calendar, not the log, so skipping a day never flatters the pace.'}]},
+
+/* ------------------------------------------------------------ YESTERDAY */
+{id:'recap',group:'Numbers',tab:'Yesterday',roles:MGR,when:'End of day · the daily recap',
+ lead:'The whole day in one place &mdash; every KPI off the daily log, debrief coverage, where the month stands, and what the team heard in the field.',
+ tasks:[
+  {t:'Send the daily recap',roles:MGR,steps:[
+    'Log the day in The Log first &mdash; the recap reads it.',
+    'Open <b>Yesterday</b>. Pick the <b>Day</b> (the <b>Today</b> button resets it).',
+    'Read the tiles and the by-consultant table. Coverage, month-to-date and the field notes below stay on this tab.',
+    'Press <b>Send to leadership</b> and enter the end-of-day PIN. What goes out is the team&rsquo;s numbers for the day and the same numbers by consultant &mdash; nothing more.'],
+   check:'The end-of-day PIN is separate from the Manager PIN, so a borrowed laptop can&rsquo;t send it. Set both on Setup.'},
+ ],tips:[]},
+
+/* ------------------------------------------------------------- THE TEAM */
+{id:'team',group:'Numbers',tab:'The Team',roles:MGR,when:'The month arranged for comparison · and where the roster lives',
+ lead:'Appointments, sold and close rate split by lead type, then total sold, revenue, average sale and overall close. Underneath: leads run against the daily bar, a close-rate matrix, and each person&rsquo;s share of the month&rsquo;s revenue.',
+ tasks:[
+  {t:'Read the comparison tables',roles:MGR,steps:[
+    '<b>Close-rate matrix</b>: each consultant&rsquo;s rate on top, their gap to the planned close rate underneath, in points. Green is at or above plan.',
+    '<b>Leads run vs the daily bar</b>: what each has run, what the bar says they should have by now, and the gap. A volume conversation, not a conversion one: 100% of the bar at a 30% close is a different problem from 60% of the bar closing well.'],
+   check:null},
+  {t:'Add a consultant',roles:MGR,steps:[
+    'Press <b>+ Add consultant</b>. Type the name as you want it shown everywhere &mdash; &ldquo;Alex R.&rdquo; style keeps tables narrow.',
+    'They appear immediately in every dropdown, the day editor and the Monday board. Set their PIN on <b>Setup</b>.'],
+   check:null},
+  {t:'Rename a consultant',roles:MGR,steps:[
+    'Press <b>Rename</b> next to the name. This is a real migration: the hub moves their PIN, every logged day, every pace row and every touch base to the new name, then re-syncs.',
+    'Use it for a spelling fix &mdash; never to hand a seat to a new hire.'],
+   check:null},
+  {t:'When someone leaves',roles:MGR,steps:[
+    'Leave them on the roster until the year is out so their history stays readable. They show zeros in the current month, which is accurate.'],
+   check:null},
+ ],tips:[]},
+
+/* -------------------------------------------------------- WHERE WE LAND */
+{id:'forecast',group:'Numbers',tab:'Where We Land',roles:MGR,when:'Assumptions set per month · read any time',
+ lead:'Where the month lands if the current pace holds &mdash; three scenarios built from what has actually been logged. It is also where the month&rsquo;s plan is set.',
+ tasks:[
+  {t:'Set up a new month (the plan)',roles:MGR,steps:[
+    'Set the <b>month box</b> to the new month.',
+    '<b>Assumptions</b> panel: revenue target from the pace report, <b>working days</b> (defaults to weekdays &mdash; knock off holidays by hand), fallback average sales.',
+    '<b>Lead plan</b> panel: TGL leads, marketed leads, self-gen leads, and each consultant&rsquo;s daily appointment bar. Working days divides the plan into the daily pace, so fix that first.',
+    '<b>Planned close rates</b> panel: what the plan assumes each lead type converts at. Revenue is leads &times; close &times; ticket &mdash; this is the middle term.',
+    'Clear the banner at the top. It lists any setting that contradicts the plan: a coaching ticket target below the plan&rsquo;s average sale, a close target below the plan&rsquo;s rate, a per-consultant bar that doesn&rsquo;t multiply out to the team plan. <b>Move the coaching targets onto the plan</b> fixes the first two in one press; the bar is a judgement call.'],
+   check:'The Board, The Log, The Team and vs Last Year all move together &mdash; there is nowhere else to enter the plan, so they cannot disagree.'},
+  {t:'Read the forecast',roles:MGR,steps:[
+    '<b>Plan bridge</b>: leads &times; close &times; ticket, plan against where the month lands at today&rsquo;s rates. It shows which term is actually moving the revenue.',
+    '<b>Tiles</b>: target, days logged, days remaining, revenue to date, daily revenue needed to land on target.',
+    '<b>Scenarios</b>: base case runs the current close rate and average sale forward. Best case adds 20% to close (capped at 70%) and 5% to ticket; worst takes 15% off close and 5% off ticket.'],
+   check:'Early in a month two logged days is a thin base and the numbers swing hard; it settles by the second week.'},
+ ],tips:[]},
+
+/* --------------------------------------------------------- VS LAST YEAR */
+{id:'yoy',group:'Numbers',tab:'vs Last Year',roles:MGR,when:'Needs a prior-year baseline for the month',
+ lead:'This month against the same month last year, matched period for period &mdash; the comparison runs only through the latest day logged, so a half-logged month is never compared against a full one.',
+ tasks:[
+  {t:'Read the comparison',roles:MGR,steps:[
+    '<b>Lead tiles</b>: TGL, marketed and total through the latest day logged, against the same days last year and this month&rsquo;s plan.',
+    '<b>Tiles</b>: revenue, both close rates, overall close, both average sales &mdash; last year underneath, gap in points or percent.',
+    '<b>Day table</b>: both years&rsquo; revenue, the daily difference, running month-to-date totals, percentage gap.',
+    '<b>Close rate &amp; ticket by day</b>: read the TOTAL row; single days swing on one deal.',
+    '<b>H1 A/B</b>: the fixed January&ndash;June comparison; it ignores the month selector.'],
+   check:'A month without a baseline says so at the top and leaves the tables empty. Load one on Import &rarr; Prior-year baseline. Cross-year figures are TGL + marketed only &mdash; last year carries no self-gen.'},
+ ],tips:[]},
+
+/* ---------------------------------------------------------------- SETUP */
+{id:'pace',group:'Setup',tab:'Setup',roles:MGR,when:'Monthly · and whenever the team changes',
+ lead:'Four panels: the monthly pace fallback for months without a daily log, then targets, PINs and the connection.',
+ tasks:[
+  {t:'Enter a monthly pace report (fallback)',roles:MGR,steps:[
+    'Pick any date in the month. Enter each consultant&rsquo;s raw counts, plus an optional all-leads total for self-gen and other types. Close rates and tickets calculate live; sold above appointments is warned.',
+    'Or press <b>Import from the Sales Manager Pace Report</b>: paste the <i>Sales Dispatch Order</i> sheet (header row starting <i>Advisor&rsquo;s Name</i> plus consultant rows; columns are read by name). <b>Read what I pasted</b>, then <b>Apply to the grid</b>.',
+    'Press <b>Save pace data</b>. Nothing syncs until you do.'],
+   check:'This panel never overwrites the daily log. If a month has logged days, those win and this grid is only the backup. Use it for history or a month where the log got away from you.'},
+  {t:'Set the coaching targets',roles:MGR,steps:[
+    'The five numbers every flag triggers off: appointments (monthly), TGL close, marketed close, TGL ticket, marketed ticket.',
+    'On pace = at or above target; Watch = within 85%; Sub-standard = below.',
+    'Press <b>Save targets</b>. If they contradict the month&rsquo;s plan, Where We Land&rsquo;s banner will say so.'],
+   check:null},
+  {t:'Set PINs and access',roles:MGR,steps:[
+    '<b>Consultant PINs</b> &mdash; one each. Blank removes the gate for that person. Manager mode bypasses all of them.',
+    '<b>Managers who take HA/ZT calls</b> &mdash; the roster, each with their own PIN, and <b>Full access</b> ticked for anyone who should open the whole hub. Everyone else gets Call Coach only.',
+    '<b>Coordinators</b> &mdash; comma separated; their PINs open Today and Debrief with manager rights and nothing else.',
+    '<b>Shared manager PIN</b> (fallback) and <b>end-of-day PIN</b> &mdash; both here.',
+    'Press <b>Save PINs</b> / <b>Save setup</b>.'],
+   check:'A manager with no PIN can&rsquo;t unlock on their own; the shared PIN works but saves calls unattributed. Give everyone their own.'},
+  {t:'Connect the Google Sheet',roles:MGR,steps:[
+    '<b>Apps Script URL and team code</b> &mdash; the connection to the sheet. Blank runs local-only on one device.',
+    'Press <b>Save setup</b>. The sync dot turns green once the sheet answers.'],
+   check:null},
+ ],tips:[]},
+
+/* --------------------------------------------------------------- IMPORT */
+{id:'import',group:'Setup',tab:'Import',roles:MGR,when:'Instead of typing a day · writes straight into the daily log',
+ lead:'Three importers and the backup tools. Every import shows a confirmation naming anyone whose row didn&rsquo;t match the roster.',
+ tasks:[
+  {t:'Import a day from the Nexstar pace report',roles:MGR,steps:[
+    'Open the month&rsquo;s pace report and go to the sheet for that date &mdash; the one named for the day, like <i>8th</i>.',
+    'Scroll to the per-rep grid at the bottom, below <i>Calls Ran</i>.',
+    'Copy the consultant rows. Column order is fixed: name, TGL appointments, sold, revenue, then marketed appointments, sold, revenue. A header row is fine &mdash; it is skipped.',
+    'On <b>Import</b>, set the <b>date</b> and the <b>service-call count</b>, paste, press <b>Import day</b>.',
+    'Read the confirmation: how many consultants imported, and anyone whose row didn&rsquo;t match.'],
+   check:'The day card in The Log is green. A stranger in the confirmation means a new hire not on the roster &mdash; add them on The Team and re-import that day.'},
+  {t:'Import a day from ServiceTitan',roles:MGR,steps:[
+    'ServiceTitan: <b>Reports &rarr; Sales &rarr; Technician Performance</b>. Filter to the Sales business unit; date range set to that single day.',
+    'Expand the marketed and TGL columns and use <i>Close Rate As Of</i>.',
+    'Copy the rows <b>including the header</b> &mdash; this importer matches columns by name, so the header is what makes it work.',
+    'Set the date, paste, press <b>Import ServiceTitan day</b>. If it finds the header but no TGL or marketed columns it says so rather than importing zeros.'],
+   check:null},
+  {t:'Load a prior-year baseline',roles:MGR,steps:[
+    'One paste covers a whole month: one row per day, in day order &mdash; day, then TGL appointments, sold, revenue, then marketed appointments, sold, revenue. The day can be 7, 7th, 7-Sep or 9/7/2025.',
+    'Team totals, not per consultant. Press <b>Save baseline</b>.',
+    'Reconcile: saving reports the month&rsquo;s leads, sold, revenue and close rate. Compare against the pace report&rsquo;s monthly actuals. If they don&rsquo;t tie, a day is missing or doubled.',
+    'Saving replaces that month outright &mdash; a correction is a re-paste. Loaded months list underneath with <b>Remove</b>.'],
+   check:'This is the only thing that feeds vs Last Year.'},
+  {t:'Back up and clean up',roles:MGR,steps:[
+    '<b>Download full backup</b> &mdash; one JSON file with the daily log, monthly pace, every touch base, debrief, coached call and setting. Do it at month end.',
+    '<b>Daily log as CSV</b> &mdash; the selected month, one row per consultant per day.',
+    '<b>Clear this month&rsquo;s daily log</b> &mdash; wipes the logged days for the month in the header and nothing else. Touch bases and debriefs are untouched. It asks first.'],
+   check:null},
+ ],
+ tips:[{h:'Name matching',p:'Reports say &ldquo;Alex Rivera&rdquo; or &ldquo;Rivera, Alex&rdquo;; the hub says &ldquo;Alex R.&rdquo; The importer matches on first name plus initial, either order. Anything it can&rsquo;t place is still imported under the name as typed and called out &mdash; a new hire shows up as a stranger rather than silently vanishing.'}]},
+
+/* ------------------------------------------------------------- ROLLOVER */
+{id:'rollover',group:'Setup',tab:'Month rollover',roles:MGR,when:'The 1st · five minutes',
+ lead:'Nothing breaks at midnight on the 1st &mdash; the hub is month-aware throughout. Five minutes of housekeeping keeps it clean.',
+ tasks:[
+  {t:'Roll the month',roles:MGR,steps:[
+    'Change the <b>month box</b> to the new month. The Log opens empty and waiting.',
+    'On <b>Where We Land</b>, set the assumptions: revenue target from the new pace report, working days minus holidays, the lead plan, the planned close rates. Everything else carries forward.',
+    'On <b>Import</b>, <b>Download full backup</b> for the month that just closed.',
+    'Check the closed month reconciles: open The Board on the old month and compare against the pace report&rsquo;s monthly actuals. If they differ, a day is missing or double-entered &mdash; The Log shows which.',
+    'Load the prior-year baseline for the new month if you want year-over-year.'],
+   check:null},
+ ],tips:[]},
+
+/* -------------------------------------------------------------- TROUBLE */
+{id:'trouble',group:'Start here',tab:'When it looks wrong',roles:ALL,when:'Before you tell anyone the hub is broken',
+ lead:'What you see, what it means, and what to do.',
+ custom:{all:`<table><tr><th>What you see</th><th>What it means / what to do</th></tr>
+  <tr><td>Sync error (red dot)</td><td>Working from the copy on this device; pushes when the connection is back. Keep going. Red all day &mdash; tell Nels.</td></tr>
+  <tr><td>My Board / The Board all dashes</td><td>No days logged for that month yet. Check the month box in the header first.</td></tr>
+  <tr><td>No focus card on Debrief</td><td>No My Week submitted this week. Debriefs still save and count.</td></tr>
+  <tr><td>Today shows no team number</td><td>Nels hasn&rsquo;t committed yet. Commit yours anyway.</td></tr>
+  <tr><td>&ldquo;All four numbers, please&rdquo;</td><td>A blank isn&rsquo;t a commitment. Fill every box, even if it&rsquo;s 0.</td></tr>
+  <tr><td>Debrief won&rsquo;t save</td><td>You skipped a required row &mdash; the toast names it. Review and Family Plan are required.</td></tr>
+  <tr><td>PIN not accepted</td><td>Ask Nels. Never use somebody else&rsquo;s; the entry saves under the name in the dropdown.</td></tr>
+  <tr><td>My commitment shows someone else&rsquo;s name</td><td>The dropdown follows whoever signed in last on this device. Pick your name; enter your PIN.</td></tr>
+  <tr><td>Numbers look off</td><td>Check the month box. Then tell Nels which day &mdash; he can correct any single day and everything recalculates.</td></tr>
+  <tr><td>Close rate above 100%</td><td>Sold exceeds appointments on some day. The day editor warns as you type; open that consultant&rsquo;s days and find it.</td></tr>
+  <tr><td>Ticket looks wild</td><td>Revenue logged against zero sold, or a day entered twice. Check the day cards for a duplicate.</td></tr>
+  <tr><td>A consultant reads zero</td><td>Their name on the imported report didn&rsquo;t match the roster. Add them on The Team and re-import that day.</td></tr>
+  <tr><td>Touch base says &ldquo;pace report&rdquo;</td><td>No days logged for that month, so it fell back. Log a day and it switches over.</td></tr>
+  <tr><td>Queue never empties</td><td>Unsold debriefs stay until an HA/ZT is <b>Made</b>. <i>Scheduled</i> keeps them there on purpose.</td></tr></table>`},
+ tasks:[],tips:[]},
+];
+
+/* ====================================================================== */
+const $=id=>document.getElementById(id);
+let role=null, cur=null, query='';
+function visible(){ return G.filter(g=>g.roles.includes(role)); }
+function tasksFor(g){ return g.tasks.filter(t=>t.roles.includes(role)); }
+function hl(s){ if(!query) return s; const re=new RegExp('('+query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'); return s.replace(re,'<span class="hit">$1</span>'); }
+function matches(g){
+  if(!query) return true; const q=query.toLowerCase();
+  const txt=[g.tab,g.lead,...(tasksFor(g).flatMap(t=>[t.t,...t.steps,t.check||''])),...(g.tips||[]).flatMap(t=>[t.h,t.p]),(g.custom?(g.custom[role]||g.custom.all||''):'')].join(' ').replace(/<[^>]+>/g,'').toLowerCase();
+  return txt.includes(q);
+}
+function setRole(r){
+  role=r; try{localStorage.setItem('tr_role',r);}catch(e){}
+  document.querySelectorAll('.rolebar button').forEach(b=>b.classList.toggle('on',b.dataset.r===r));
+  const vis=visible(); if(!cur||!vis.some(g=>g.id===cur)) cur=vis[0].id;
+  render();
+}
+function goTo(id){ cur=id; render(); window.scrollTo({top:0}); history.replaceState(null,'','?role='+role+'#'+id); }
+function render(){
+  const vis=visible().filter(matches);
+  /* sidebar */
+  const groups=['Start here','Coaching','Numbers','Setup'];
+  $('side').innerHTML=groups.map(gr=>{const items=vis.filter(g=>g.group===gr); if(!items.length) return '';
+    return `<div class="g">${gr}</div>`+items.map(g=>`<a href="#${g.id}" class="${g.id===cur?'on':''}" onclick="goTo('${g.id}');return false">${g.tab}</a>`).join('');}).join('')
+    +`<button class="printall" onclick="printAll()">Print the whole ${ROLE_NAME[role]} guide</button>`;
+  /* main */
+  if(!vis.length){ $('main').innerHTML=`<div class="empty">Nothing matches &ldquo;${query}&rdquo; for a ${ROLE_NAME[role]}.</div>`; return; }
+  if(!vis.some(g=>g.id===cur)) cur=vis[0].id;
+  $('main').innerHTML=vis.map(g=>{
+    const tasks=tasksFor(g);
+    const custom=g.custom?(g.custom[role]||g.custom.all||''):'';
+    return `<section class="guide ${g.id===cur?'on':''}" id="${g.id}">
+      <div class="ptitle">Sales Hub &middot; ${ROLE_NAME[role]} training &middot; ${g.tab}</div>
+      <div class="gh"><div><div class="meta"><b>${g.group}</b>${g.when}</div><h2>${hl(g.tab)} <span class="rolechip">${ROLE_NAME[role]}</span></h2></div>
+        <button class="printbtn" onclick="window.print()">Print this guide</button></div>
+      <p class="lead">${hl(g.lead)}</p>
+      ${custom?`<div class="card">${hl(custom)}</div>`:''}
+      ${tasks.map(t=>`<div class="card"><h3>${hl(t.t)}</h3><ol class="steps">${t.steps.map(s=>`<li>${hl(s)}</li>`).join('')}</ol>${t.check?`<div class="chk"><b>Check your work</b>${hl(t.check)}</div>`:''}</div>`).join('')}
+      ${(g.tips||[]).map(t=>`<div class="tip"><b>${hl(t.h)}</b><p>${hl(t.p)}</p></div>`).join('')}
+    </section>`;}).join('');
+}
+function search(v){ query=v.trim(); render(); }
+function printAll(){ document.body.classList.add('printall'); window.print(); setTimeout(()=>document.body.classList.remove('printall'),500); }
+window.addEventListener('afterprint',()=>document.body.classList.remove('printall'));
+/* boot: ?role=manager#today, else remembered role, else consultant */
+(function(){
+  const p=new URLSearchParams(location.search); let r=p.get('role'); let saved=null; try{saved=localStorage.getItem('tr_role');}catch(e){}
+  if(!ALL.includes(r)) r=ALL.includes(saved)?saved:'consultant';
+  const h=location.hash.replace('#',''); if(G.some(g=>g.id===h)) cur=h;
+  setRole(r);
+})();
+</script>
+</body></html>
